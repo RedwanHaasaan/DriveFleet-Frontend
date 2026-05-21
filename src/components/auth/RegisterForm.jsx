@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { validatePassword } from "@/utils/PasswordValidator";
 import { useState } from 'react';
-import { signIn } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +23,6 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const passwordError = validatePassword(formData.password);
     if (passwordError) {
       toast.error(passwordError);
@@ -37,7 +36,7 @@ const RegisterForm = () => {
         email: formData.email,
         password: formData.password,
         name: formData.name,
-        image: formData.photoURL || undefined,
+        image: formData.photoURL || "https://imgs.search.brave.com/pD-lVXc9jsIF0EZ0LmN1wj1h45RnQ-5g-CYYtkoLNIw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMjcv/OTUxLzEzNy9zbWFs/bC9zdHlsaXNoLXNw/ZWN0YWNsZXMtZ3V5/LTNkLWF2YXRhci1j/aGFyYWN0ZXItaWxs/dXN0cmF0aW9ucy1w/bmcucG5n",
       });
 
       if (result.error) {
