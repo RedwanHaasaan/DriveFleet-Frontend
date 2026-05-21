@@ -1,10 +1,9 @@
-import CustomNavbar from "@/components/layouts/Navbar";
-
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
-    <div>
-    hello
+    <div className="relative">
+      <Header/>
     </div>
   );
 }
