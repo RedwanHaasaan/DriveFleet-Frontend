@@ -1,8 +1,10 @@
 // utils/addCar.js
 
+import { apiFetch } from "./api";
+
 export const addCar = async (carData) => {
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/add-car`,
       {
         method: "POST",

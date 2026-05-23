@@ -1,8 +1,10 @@
 // utils/booking.js
 
+import { apiFetch } from "./api";
+
 export const createBooking = async (bookingData) => {
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking`,
       {
         method: "POST",
@@ -26,12 +28,10 @@ export const createBooking = async (bookingData) => {
   }
 };
 
-export const fetchMyBookings = async (userId) => {
+export const fetchMyBookings = async () => {
   try {
-    if (!userId) return [];
-    
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/my-bookings?userId=${userId}`
+    const response = await apiFetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/my-bookings`
     );
 
     const data = await response.json();
@@ -49,7 +49,7 @@ export const fetchMyBookings = async (userId) => {
 
 export const updateBooking = async (bookingId, dates) => {
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/${bookingId}`,
       {
         method: "PUT",
@@ -75,7 +75,7 @@ export const updateBooking = async (bookingId, dates) => {
 
 export const cancelBooking = async (bookingId) => {
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/${bookingId}`,
       {
         method: "DELETE",

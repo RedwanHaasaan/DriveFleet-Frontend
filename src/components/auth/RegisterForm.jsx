@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { validatePassword } from "@/utils/PasswordValidator";
 import { useState } from 'react';
 import { signIn, signUp } from "@/lib/auth-client";
+import { loginToBackend } from "@/utils/authApi";
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +43,7 @@ const RegisterForm = () => {
       if (result.error) {
         toast.error(result.error.message || "Registration failed");
       } else {
+        await loginToBackend(formData.email, formData.password);
         toast.success("Account created successfully!");
         router.push("/");
         router.refresh();

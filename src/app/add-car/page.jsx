@@ -68,12 +68,7 @@ export default function AddCarPage() {
     setIsSubmitting(true);
 
     try {
-      await addCar({
-        ...formData,
-        userId: session?.user?.id,
-        userName: session?.user?.name,
-        userEmail: session?.user?.email,
-      });
+      await addCar(formData);
       toast.success("Car added successfully!");
       router.push("/cars");
     } catch (error) {

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { X, Loader2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { deleteCar } from "@/utils/fetchCar";
+import { getMongoId } from "@/utils/mongoId";
 
 export default function DeleteModal({ car, onClose, onConfirm }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -12,7 +13,7 @@ export default function DeleteModal({ car, onClose, onConfirm }) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteCar(car._id);
+      await deleteCar(getMongoId(car._id));
       toast.success("Car deleted successfully!");
       onConfirm();
     } catch (error) {

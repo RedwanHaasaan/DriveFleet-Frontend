@@ -11,6 +11,7 @@ import {
   Edit2,
   Trash2,
 } from "lucide-react";
+import { getMongoId } from "@/utils/mongoId";
 
 export default function BookingCard({ booking, onModify, onCancel }) {
   const startDate = new Date(booking.startDate);
@@ -57,7 +58,7 @@ export default function BookingCard({ booking, onModify, onCancel }) {
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
             <div>
               <Link
-                href={`/cars/${booking.carId}`}
+                href={`/cars/${getMongoId(booking.carId)}`}
                 className="font-semibold text-lg text-foreground hover:text-primary transition-colors"
               >
                 {booking.carModel}

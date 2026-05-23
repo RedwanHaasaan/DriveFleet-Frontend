@@ -1,5 +1,7 @@
 // utils/fetchCars.js
 
+import { apiFetch } from "./api";
+
 export const fetchCars = async ({
   search = "",
   filters = {},
@@ -69,10 +71,10 @@ export const fetchCarById = async (id) => {
   }
 };
 
-export const fetchMyCars = async (userId) => {
+export const fetchMyCars = async () => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/my-cars?userId=${userId}`
+    const response = await apiFetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/my-cars`
     );
     const data = await response.json();
     if (!response.ok) {
@@ -87,7 +89,7 @@ export const fetchMyCars = async (userId) => {
 
 export const updateCar = async (carId, payload) => {
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/${carId}`,
       {
         method: "PUT",
@@ -108,7 +110,7 @@ export const updateCar = async (carId, payload) => {
 
 export const deleteCar = async (carId) => {
   try {
-    const response = await fetch(
+    const response = await apiFetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/${carId}`,
       { method: "DELETE" }
     );

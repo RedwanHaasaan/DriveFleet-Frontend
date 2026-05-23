@@ -24,7 +24,7 @@ export default function MyCarsPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await fetchMyCars(session.user.id);
+      const data = await fetchMyCars();
       setCars(data);
     } catch (err) {
       console.error(err);

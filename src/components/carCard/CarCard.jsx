@@ -3,6 +3,7 @@ import { Car, MapPin } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { getMongoId } from "@/utils/mongoId";
 const CarCard = ({ car, index }) => {
   return (
     <motion.div
@@ -81,7 +82,7 @@ const CarCard = ({ car, index }) => {
             <span className="text-sm text-muted-foreground">/day</span>
           </div>
           <Link
-            href={`/cars/${car._id}`}
+            href={`/cars/${getMongoId(car._id)}`}
             className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors"
           >
             View Details

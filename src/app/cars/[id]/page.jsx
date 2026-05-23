@@ -110,9 +110,6 @@ export default function CarDetailPage({ params }) {
         carId: id,
         startDate: bookingDates.startDate,
         endDate: bookingDates.endDate,
-        userId: session?.user?.id,
-        userName: session?.user?.name,
-        userEmail: session?.user?.email,
       });
 
       toast.success("Booking confirmed successfully!");

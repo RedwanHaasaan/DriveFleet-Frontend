@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { updateCar } from "@/utils/fetchCar";
+import { getMongoId } from "@/utils/mongoId";
 
 export default function EditModal({ car, onClose, onSave }) {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ export default function EditModal({ car, onClose, onSave }) {
     e.preventDefault();
     setIsSaving(true);
     try {
-      await updateCar(car._id, formData);
+      await updateCar(getMongoId(car._id), formData);
       toast.success("Car updated successfully!");
       onSave();
     } catch (error) {

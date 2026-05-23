@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { X, Loader2 } from "lucide-react";
 import { updateBooking } from "@/utils/booking";
+import { getMongoId } from "@/utils/mongoId";
 
 export default function ModifyModal({ booking, onClose, onSave }) {
   const [dates, setDates] = useState({
@@ -34,7 +35,7 @@ export default function ModifyModal({ booking, onClose, onSave }) {
     setIsSaving(true);
 
     try {
-      await updateBooking(booking._id, dates);
+      await updateBooking(getMongoId(booking._id), dates);
       toast.success("Booking updated successfully!");
       onSave();
     } catch (error) {

@@ -26,7 +26,7 @@ export default function MyBookingsPage() {
     try {
       setIsLoading(true);
       setError(null);
-      const data = await fetchMyBookings(session.user.id);
+      const data = await fetchMyBookings();
       setBookings(data);
     } catch (err) {
       console.error(err);

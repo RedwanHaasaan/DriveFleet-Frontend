@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { AlertTriangle, Loader2 } from "lucide-react";
 import { cancelBooking } from "@/utils/booking";
+import { getMongoId } from "@/utils/mongoId";
 
 export default function CancelModal({ booking, onClose, onConfirm }) {
   const [isCancelling, setIsCancelling] = useState(false);
@@ -13,7 +14,7 @@ export default function CancelModal({ booking, onClose, onConfirm }) {
     setIsCancelling(true);
 
     try {
-      await cancelBooking(booking._id);
+      await cancelBooking(getMongoId(booking._id));
       toast.success("Booking cancelled successfully!");
       onConfirm();
     } catch (error) {

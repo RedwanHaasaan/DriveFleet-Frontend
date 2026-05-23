@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { signIn } from "@/lib/auth-client";
+import { loginToBackend } from "@/utils/authApi";
 import { toast } from "sonner";
 import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import Image from "next/image";
@@ -45,6 +46,7 @@ export default function LoginForm() {
       if (result.error) {
         toast.error(result.error.message || "Invalid credentials");
       } else {
+        await loginToBackend(formData.email, formData.password);
         toast.success("Welcome back!");
         router.push(callbackUrl);
         router.refresh();
