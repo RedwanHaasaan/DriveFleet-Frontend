@@ -69,6 +69,59 @@ export const fetchCarById = async (id) => {
   }
 };
 
+export const fetchMyCars = async (userId) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/my-cars?userId=${userId}`
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch my cars");
+    }
+    return data;
+  } catch (error) {
+    console.error("Error in fetchMyCars utility:", error);
+    throw error;
+  }
+};
+
+export const updateCar = async (carId, payload) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/${carId}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update car");
+    }
+    return data;
+  } catch (error) {
+    console.error("Error in updateCar utility:", error);
+    throw error;
+  }
+};
+
+export const deleteCar = async (carId) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/${carId}`,
+      { method: "DELETE" }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to delete car");
+    }
+    return data;
+  } catch (error) {
+    console.error("Error in deleteCar utility:", error);
+    throw error;
+  }
+};
 export const fetchRecentCars = async () => {
   try {
     const response = await fetch(
