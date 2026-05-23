@@ -82,7 +82,7 @@ const Header = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-linear-to-br from-primary/10 to-primary/5 flex items-center justify-center">
+            <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-linear-to-br from-primary/10 to-primary/5 flex items-center justify-center ">
               <LottiePlayer
                 animationData={car_Load}
                 loop={false}
