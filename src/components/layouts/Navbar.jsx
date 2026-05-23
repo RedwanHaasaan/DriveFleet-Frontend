@@ -7,7 +7,6 @@ import { useSession, signOut } from "@/lib/auth-client";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Car,
   Menu,
   X,
   Sun,
