@@ -1,7 +1,8 @@
 "use client";
-import { Car, Link, MapPin } from "lucide-react";
+import { Car, MapPin } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
 const CarCard = ({ car, index }) => {
   return (
     <motion.div
@@ -12,12 +13,11 @@ const CarCard = ({ car, index }) => {
     >
       {/* Car Image */}
       <div className="relative aspect-16/10 bg-muted overflow-hidden">
-        {car.imageUrl ? (
+        {(car.imageUrl || car.image) ? (
           <Image
-            src={car.imageUrl}
-            alt={car.carModel}
-            width={100}
-            height={100}
+            src={car.imageUrl || car.image}
+            alt={car.carModel || `${car.brand} ${car.model}`}
+            fill
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
@@ -40,7 +40,7 @@ const CarCard = ({ car, index }) => {
       {/* Car Info */}
       <div className="p-4">
         <h3 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
-          {car.carModel}
+          {car.carModel || `${car.brand} ${car.model}`}
         </h3>
 
         <div className="flex items-center gap-1 mt-2 text-muted-foreground">

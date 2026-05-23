@@ -34,7 +34,7 @@ export const fetchCars = async ({
     }
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/getcar?${params.toString()}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car?${params.toString()}`
     );
 
     if (!response.ok) {

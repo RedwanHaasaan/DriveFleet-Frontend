@@ -13,10 +13,11 @@ const RecentCarCard=({ car, index })=>{
       className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300"
     >
       <div className="relative aspect-16/10 bg-muted overflow-hidden">
-        {car.imageUrl ? (
+        { (car.imageUrl || car.image) ? (
           <Image
-            src={car.imageUrl}
-            alt={car.carModel}
+            src={car.imageUrl || car.image}
+            alt={car.carModel || `${car.brand} ${car.model}`}
+            fill
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (
@@ -27,7 +28,7 @@ const RecentCarCard=({ car, index })=>{
       </div>
       <div className="p-4">
         <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
-          {car.carModel}
+          {car.carModel || `${car.brand} ${car.model}`}
         </h3>
         <div className="flex items-center gap-1 mt-1 text-muted-foreground">
           <MapPin className="h-3 w-3" />
