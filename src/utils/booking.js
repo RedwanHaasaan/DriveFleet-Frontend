@@ -25,3 +25,72 @@ export const createBooking = async (bookingData) => {
     throw error;
   }
 };
+
+export const fetchMyBookings = async (userId) => {
+  try {
+    if (!userId) return [];
+    
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/my-bookings?userId=${userId}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch bookings");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error in fetchMyBookings utility:", error);
+    throw error;
+  }
+};
+
+export const updateBooking = async (bookingId, dates) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/${bookingId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dates),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to update booking");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error in updateBooking utility:", error);
+    throw error;
+  }
+};
+
+export const cancelBooking = async (bookingId) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/booking/${bookingId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to cancel booking");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error in cancelBooking utility:", error);
+    throw error;
+  }
+};
