@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 import { CalendarDays, Car, Loader2 } from "lucide-react";
 
 import BookingCard from "@/components/booking/BookingCard";
@@ -14,7 +12,6 @@ import CancelModal from "@/components/booking/CancelModal";
 import { fetchMyBookings } from "@/utils/booking";
 
 export default function MyBookingsPage() {
-  const router = useRouter();
   const { data: session, isPending } = useSession();
   
   const [bookings, setBookings] = useState([]);
@@ -38,13 +35,6 @@ export default function MyBookingsPage() {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!isPending && !session) {
-      toast.error("Please login to view your bookings");
-      router.push("/login");
-    }
-  }, [session, isPending, router]);
 
   useEffect(() => {
     if (session?.user?.id) {

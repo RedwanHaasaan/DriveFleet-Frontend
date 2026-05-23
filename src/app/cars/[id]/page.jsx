@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, use, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSession } from "@/lib/auth-client";
@@ -24,10 +24,12 @@ import {
 
 import { fetchCarById } from "@/utils/fetchCar";
 import { createBooking } from "@/utils/booking";
+import Image from "next/image";
 
 export default function CarDetailPage({ params }) {
   const { id } = use(params);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session } = useSession();
   const [isBooking, setIsBooking] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -59,6 +61,12 @@ export default function CarDetailPage({ params }) {
     loadCarDetails();
   }, [id]);
 
+  useEffect(() => {
+    if (searchParams.get("book") === "1" && session && car && !car.error) {
+      setShowBookingModal(true);
+    }
+  }, [searchParams, session, car]);
+
   const calculateTotalPrice = () => {
     if (!bookingDates.startDate || !bookingDates.endDate || !car) return 0;
     const start = new Date(bookingDates.startDate);
@@ -69,14 +77,19 @@ export default function CarDetailPage({ params }) {
 
   const handleBookNow = () => {
     if (!session) {
-      toast.error("Please login to book a car");
-      router.push("/login");
+      const returnUrl = `/cars/${id}?book=1`;
+      router.push(`/login?callbackUrl=${encodeURIComponent(returnUrl)}`);
       return;
     }
     setShowBookingModal(true);
   };
 
   const handleConfirmBooking = async () => {
+    if (!session) {
+      router.push(`/login?callbackUrl=${encodeURIComponent(`/cars/${id}?book=1`)}`);
+      return;
+    }
+
     if (!bookingDates.startDate || !bookingDates.endDate) {
       toast.error("Please select both start and end dates");
       return;
@@ -159,12 +172,14 @@ export default function CarDetailPage({ params }) {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-4"
           >
-            <div className="relative aspect-[16/10] bg-muted rounded-xl overflow-hidden">
+            <div className="relative aspect-16/10 bg-muted rounded-xl overflow-hidden">
               {carImageSrc ? (
-                <img
+                <Image
                   src={carImageSrc}
                   alt={carName}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">

@@ -40,13 +40,6 @@ export default function AddCarPage() {
     availability: true,
   });
 
-  useEffect(() => {
-    if (!isPending && !session) {
-      toast.error("Please login to add a car");
-      router.push("/login");
-    }
-  }, [session, isPending, router]);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({

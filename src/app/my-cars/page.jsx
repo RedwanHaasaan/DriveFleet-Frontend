@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "@/lib/auth-client";
-import { toast } from "sonner";
 import { Car, Plus, Loader2 } from "lucide-react";
 import CarCard from "@/components/car/CarCard";
 import EditModal from "@/components/car/EditModal";
@@ -12,7 +10,6 @@ import DeleteModal from "@/components/car/DeleteModal";
 import { fetchMyCars } from "@/utils/fetchCar";
 
 export default function MyCarsPage() {
-  const router = useRouter();
   const { data: session, isPending } = useSession();
 
   const [cars, setCars] = useState([]);
@@ -38,13 +35,8 @@ export default function MyCarsPage() {
   };
 
   useEffect(() => {
-    if (!isPending && !session) {
-      toast.error("Please login to view your cars");
-      router.push("/login");
-      return;
-    }
     if (session) loadCars();
-  }, [session, isPending, router]);
+  }, [session]);
 
   if (isPending || isLoading) {
     return (
