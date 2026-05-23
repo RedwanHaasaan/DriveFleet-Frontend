@@ -49,3 +49,22 @@ export const fetchCars = async ({
     throw error;
   }
 };
+
+export const fetchCarById = async (id) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/car/${id}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch car details");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error in fetchCarById utility:", error);
+    throw error;
+  }
+};
