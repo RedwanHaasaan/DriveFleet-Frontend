@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
 import { logoutFromBackend } from "@/utils/authApi";
 import { useTheme } from "next-themes";
@@ -33,14 +33,27 @@ const privateLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session, isPending } = useSession();
   const { theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
-    await logoutFromBackend();
-    await signOut();
-    setIsMenuOpen(false);
+    try {
+      await logoutFromBackend();
+      await signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/");
+          }
+        }
+      });
+      setIsMenuOpen(false);
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+      router.push("/");
+    }
   };
 
   return (
