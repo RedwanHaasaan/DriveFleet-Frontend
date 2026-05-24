@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import LottiePlayer from "@/components/Lottie/LottiePlayer";
@@ -10,11 +9,19 @@ import carLoad from "@/assets/car_Load.json";
 const MIN_DISPLAY_MS = 2200;
 
 export function EntryLoader({ children }) {
-  const pathname = usePathname();
   const [showLoader, setShowLoader] = useState(true);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Check if loader already shown in this session
+    if (typeof window !== "undefined") {
+      const hasLoaded = sessionStorage.getItem("drivefleet_loaded");
+      if (hasLoaded) {
+        setShowLoader(false);
+        return;
+      }
+    }
+
     setShowLoader(true);
     setProgress(0);
     document.body.style.overflow = "hidden";
@@ -38,6 +45,7 @@ export function EntryLoader({ children }) {
       hideTimeout = setTimeout(() => {
         setShowLoader(false);
         document.body.style.overflow = "";
+        sessionStorage.setItem("drivefleet_loaded", "true");
       }, 450);
     };
 
@@ -60,14 +68,14 @@ export function EntryLoader({ children }) {
       window.removeEventListener("load", onReady);
       document.body.style.overflow = "";
     };
-  }, [pathname]);
+  }, []);
 
   return (
     <>
       <AnimatePresence mode="wait">
         {showLoader && (
           <motion.div
-            key={`entry-loader-${pathname}`}
+            key="entry-loader"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
